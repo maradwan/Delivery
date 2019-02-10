@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block content %}
+{%- for category, message in get_flashed_messages(with_categories = true) %}
+         <div class = "alert alert-success">
+            {{ message }}
+         </div>
+      {%- endfor %}
+
+
+                <div class="login">
+		<div class="login-screen">
+			<div class="login-form">
+
+ <div class="jumbo">
+        <h3>Welcome {{ session['email'] }}'s profile page<h3>
+
+
+                            <br>
+                        </div>
+                </div>
+        </div>
+{% endblock %}
+~                  

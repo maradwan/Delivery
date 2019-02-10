@@ -1,0 +1,131 @@
+{% extends "layout.html" %}
+{% block content %}
+<form action="{{ url_for('delivery') }}" method="POST">
+        <div class="login">
+                <div class="login-screen">
+                        <div class="app-title">
+                                <h1>Delivery Order</h1>
+                        </div>
+                        <div class="login-form">
+
+  {% for message in form.name.errors %}
+    <div class="alert alert-danger fade in">{{ message }}</div>
+  {% endfor %}
+
+  {% for message in form.phone1.errors %}
+    <div class="alert alert-danger fade in">{{ message }}</div>
+  {% endfor %}
+
+  {% for message in form.phone2.errors %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+
+  {% for message in form.email.errors %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+
+  {% for message in form.city.errors %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+
+  {% for message in form.address.errors %}
+    <div class="alert alert-danger fade in">{{ message }}</div>
+  {% endfor %}
+
+  {% for message in form.floor.errors %}
+    <div class="alert alert-danger fade in">{{ message }}</div>
+  {% endfor %}
+
+  {% for message in form.apartment.errors %}
+    <div class="alert alert-danger fade in">{{ message }}</div>
+  {% endfor %}
+
+  {% for message in form.address_comments.errors %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+
+  {% for message in form.order_comments.errors %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+
+  {% for message in form.number_of_pieces.errors %}
+    <div class="alert alert-danger fade in">{{ message }}</div>
+  {% endfor %}
+
+  {% for message in form.time_of_pickup.errors %}
+    <div class="alert alert-danger fade in">{{ message }}</div>
+  {% endfor %}
+
+  {% for message in form.time_of_delivery.errors %}
+    <div class="alert alert-danger fade in">{{ message }}</div>
+  {% endfor %}
+
+  {% for message in form.lang.errors %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+
+  {% for message in form.condition.errors %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+
+
+    {{ form.hidden_tag() }}
+
+    {{ form.name.label }}
+   <div class="form-group"><label class="control-label required"></label><input name="name" type="text" required="required" maxlength="120" class="form-control" /></div>
+
+    {{ form.phone1.label }}
+   <div class="form-group"><label class="control-label required"></label><input name="phone1" type="text" required="required" maxlength="100" class="form-control" /></div>
+
+    {{ form.phone2.label }}
+   <div class="form-group"><label class="control-label required"></label><input name="phone2" type="text" maxlength="100" class="form-control" /></div>
+
+    {{ form.email.label }}
+   <div class="form-group"><label class="control-label required"></label><input name="email" type="text" maxlength="100" class="form-control" /></div>
+
+    {{ form.city.label }}
+   <label class="control-label required"></label>
+   <select name="city"><option value="القاهرة الجديدة - التجمع الخامس" selected="selected" label="القاهرة الجديدة - التجمع الخامس">القاهرة الجديدة - التجمع الخامس</option><option value="السادس من اكتوبر" label="6 أكتوبر">6 أكتوبر</option><option value="الشيخ زايد" label="مدينة الشيخ زايد">مدينة الشيخ زايد</option><option value="مصر الجديدة" label="مصر الجديدة">مصر الجديدة</option><option value="مدينة نصر" label="مدينة نصر">مدينة نصر</option><option value="المعادي" label="المعادي">المعادي</option><option value="الشروق وهليوبليس الجديدة" label="الشروق وهليوبليس الجديدة">الشروق وهليوبليس الجديدة</option><option value="العبور" label="العبور">العبور</option><option value="الهضبة الوسطى" label="الهضبة الوسطى">الهضبة الوسطى</option><option value="الرحاب ومدينتي" label="الرحاب ومدينتي">الرحاب ومدينتي</option><option value="فيصل" label="فيصل">فيصل</option><option value="طريق اسكندرية الصحراوي" label="طريق اسكندرية الصحراوي">طريق اسكندرية الصحراوي</option><option value="الزمالك" label="الزمالك">الزمالك</option><option value="المهندسين" label="المهندسين">المهندسين</option><option value="الدقي" label="الدقي">الدقي</option><option value="الهرم" label="الهرم">الهرم</option><option value="حي الجيزة" label="حي الجيزة">حي الجيزة</option><option value="المقطم" label="المقطم">المقطم</option><option value="حلوان" label="حلوان">حلوان</option><option value="عين شمس" label="عين شمس">عين شمس</option><option value="مدينة بدر" label="مدينة بدر">مدينة بدر</option><option value="العاشر من رمضان" label="العاشر من رمضان">العاشر من رمضان</option><option value="جاردن سيتي" label="جاردن سيتي">جاردن سيتي</option><option value="وسط البلد" label="وسط البلد">وسط البلد</option><option value="الزيتون" label="الزيتون">الزيتون</option><option value="حدائق القبة" label="حدائق القبة">حدائق القبة</option><option value="حدائق الاهرام" label="حدائق الاهرام">حدائق الاهرام</option><option value="شبرا" label="شبرا">شبرا</option><option value="إمبابة" label="إمبابة">إمبابة</option><option value="العجوزة" label="العجوزة">العجوزة</option><option value="المنيل" label="المنيل">المنيل</option><option value="العباسية" label="العباسية">العباسية</option><option value=">15 مايو" label="15 مايو">15 مايو</option><option value="أحياء أخرى" label="أحياء أخرى">أحياء أخرى</option><option value="المطرية" label="المطرية">المطرية</option><option value="العاصمة الإدارية الجديدة" label="العاصمة الإدارية الجديدة">العاصمة الإدارية الجديدة</option></select>
+
+    {{ form.address.label }}
+   <div class="form-group"><label class="control-label required"></label><input name="address" type="text" required="required" maxlength="100" class="form-control" /></div>
+
+    {{ form.floor.label }}
+   <div class="form-group"><label class="control-label required"></label><input name="floor" type="text" maxlength="100" class="form-control" /></div>
+
+    {{ form.apartment.label }}
+   <div class="form-group"><label class="control-label required"></label><input name="apartment" type="text" maxlength="100" class="form-control" /></div>
+
+    {{ form.address_comments.label }}
+   <div class="form-group"><label class="control-label required"></label><input name="address_comments" type="text" maxlength="100" class="form-control" /></div>
+     
+    {{ form.order_comments.label }}
+   <div class="form-group"><label class="control-label required"></label><input name="order_comments" type="text" maxlength="100" class="form-control" /></div>
+    
+    {{ form.number_of_pieces.label }}
+   <div class="form-group"><label class="control-label required"></label><input name="number_of_pieces" type="number" required="required" max="999" class="form-control" /></div>
+
+    {{ form.time_of_pickup.label }}
+      <label class="control-label required"></label>
+      <input data-date-format="YYYY-MM-DD HH:mm:ss" data-role="datetimepicker" id="time_of_pickup" name="time_of_pickup" type="text" value="2018-01-20 20:33:51">
+
+    {{ form.time_of_delivery.label }}
+      <label class="control-label required"></label>
+      <input data-date-format="YYYY-MM-DD HH:mm:ss" data-role="datetimepicker" id="time_of_delivery" name="time_of_delivery" type="text" value="2018-01-20 20:33:51">
+
+    {{ form.lang.label }}
+   <label class="control-label required"></label>
+   <select name="lang"><option value="Arabic" selected="selected" label="Arabic">Arabic</option><option value="English" label="English">English</option></select>
+
+    {{ form.condition.label }}
+   <label class="control-label required"></label>
+   <select name="condition"><option value="Use" selected="selected" label="Use">Usage</option><option value="Storage" label="Storage">Storage</option></select>
+
+<div>
+    <input type="submit" value="Submit" class="btn btn-primary">
+                        </div>
+                </div>
+        </div>
+  </form>
+{% endblock %}
+

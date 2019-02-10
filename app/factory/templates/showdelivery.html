@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <h2>Delivery List</h2>
+<title>All Delivery Orders</title>
+
+<table data-order='[[ 1, "asc" ]]' data-page-length='25'>
+
+<table class="table table-bordered">
+    <thead>
+        <tr class="alert alert-info fade in">
+               <th>ID Order</th>
+               <th>Time Created</th>
+               <th>Finished</th>
+               <th>Mobile Number</th>
+               <th>Other Phone</th>
+               <th>Name</th>
+               <th>Email</th>
+               <th>City</th>
+               <th>Address</th>
+               <th>Floor Number</th>
+               <th>Apartment Number</th>
+               <th>Address Comments</th>
+               <th>Order Comments</th>
+               <th>Number of Pieces</th>
+               <th>Time of Pickup</th>
+               <th>Time of Delivery</th>
+               <th>Creator</th>
+               <th>Language</th>
+               <th>Condition</th>
+        </tr>
+    </thead>
+
+          <body>
+
+         <tbody>
+            {% for i in delivery %}
+         
+              {% if i.is_finished == True %}
+               <tr class="alert alert-success fade in">
+                 {% else %}
+               <tr class="alert alert-warning fade in">
+                      {% endif %}
+                  <td>{{ i.id }}</td>
+                  <td>{{ i.created_at }}</td>
+                  {% if i.is_finished == True %}
+                  <td class="alert alert-success fade in">YES</td>
+                  {% else %}
+                  <td class="alert alert-warning fade in">No</td>
+                     {% endif %}
+                  <td>{{ i.phone1 }}</td>
+                  <td>{{ i.phone2 }}</td>
+                  <td>{{ i.name }}</td>
+                  <td>{{ i.email }}</td>
+                  <td>{{ i.city }}</td>
+                  <td>{{ i.address }}</td>
+                  <td>{{ i.floor }}</td>
+                  <td>{{ i.apartment }}</td>
+                  <td>{{ i.address_comments }}</td>
+                  <td>{{ i.order_comments }}</td>
+                  <td>{{ i.number_of_pieces }}</td>
+                  <td>{{ i.time_of_pickup }}</td>
+                  <td>{{ i.time_of_delivery }}</td>
+                  <td>{{ i.creator_name }}</td>
+                  <td>{{ i.lang }}</td>
+                  <td>{{ i.condition }}</td>
+               </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+<div class="container">
+{% endblock %}
+
+

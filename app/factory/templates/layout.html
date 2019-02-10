@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Delivery - Admin</title>
+    <title>Welcome to Friend App</title>
+        <link href="/admin/static/bootstrap/bootstrap2/swatch/default/bootstrap.min.css?v=2.3.2" rel="stylesheet">
+        <link href="/admin/static/bootstrap/bootstrap2/css/bootstrap-responsive.css?v=2.3.2" rel="stylesheet">
+        <link href="/admin/static/admin/css/bootstrap2/admin.css?v=1.1.1" rel="stylesheet">
+        <link href="/admin/static/vendor/select2/select2.css?v=3.5.2" rel="stylesheet">
+         <link href="/admin/static/vendor/bootstrap-daterangepicker/daterangepicker-bs2.css?v=1.3.22" rel="stylesheet">
+  
+</head>
+<body>
+    <div class="container">
+    <nav class="navbar navbar-inverse">
+
+      <div class="navbar">
+        <div class="navbar-inner">
+        <ul class="nav">
+              {% if 'email' in session and is_admin %}
+            <li><a href="{{ url_for('profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('delivery') }}">New Delivery Order</a></li>
+            <li><a href="{{ url_for('showdelivery') }}">Delivery List</a></li>
+            <li><a href="{{ url_for('signout') }}">Sign Out</a></li>
+             <li><a href="/admin">Admin</a></li>
+            <li><a href="/signup">Create New User</a></li>
+               {% elif 'email' in session %}
+          <li><a href="{{ url_for('profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('delivery') }}">New Delivery Order</a></li>
+            <li><a href="{{ url_for('showdelivery') }}">Delivery List</a></li>
+            <li><a href="{{ url_for('signout') }}">Sign Out</a></li>
+                  {% else %}
+            <li><a href="{{ url_for('signin') }}">Sign In</a></li>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+              {% endif %}
+            </ul>
+            <ul class="nav pull-right">
+            </ul>
+       </div>
+      </div>
+    </nav>
+      </div>
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+   <div class="container">
+   {% block page_content %}{% endblock %}
+   </div>
+      <footer class="footer">
+        <p>&copy; Company 2018</p>
+      </footer>
+        </div>
+      </div>
+  </head>
+
+ <!-- Placed at the end of the document so the pages load faster -->
+        <script src="/admin/static/vendor/jquery.min.js?v=2.1.4" type="text/javascript"></script>
+        <script src="/admin/static/bootstrap/bootstrap2/js/bootstrap.min.js?v=2.3.2" type="text/javascript"></script>
+        <script src="/admin/static/vendor/moment.min.js?v=2.9.0" type="text/javascript"></script>
+        <script src="/admin/static/vendor/select2/select2.min.js?v=3.5.2" type="text/javascript"></script>
+        <script src="/admin/static/vendor/bootstrap-daterangepicker/daterangepicker.js?v=1.3.22"></script>
+        <script src="/admin/static/admin/js/form.js?v=1.0.1"></script>
+  </body>
+</html>
