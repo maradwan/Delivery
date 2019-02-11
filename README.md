@@ -17,3 +17,11 @@ Clone the repo
 
 ### Open Browser  
        http://localhost/
+
+## Admin User
+Email: admin@admin.com
+Password: Quob4iiyieKie3hu
+
+## Test User
+Email: test@test.com
+Password: aoho0Eeg
