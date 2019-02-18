@@ -8,11 +8,16 @@ from datetime import timedelta
 from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from werkzeug.exceptions import HTTPException
+from prometheus_client import Counter, Histogram, generate_latest
 
 
 app.config['RECAPTCHA_PUBLIC_KEY'] = ''
 app.config['RECAPTCHA_PRIVATE_KEY'] = ''
+CONTENT_TYPE_LATEST = str('text/plain; version=0.0.4; charset=utf-8')
 
+@app.route('/metrics')
+def metrics():
+    return Response(generate_latest(), mimetype=CONTENT_TYPE_LATEST)
 
 @app.before_request
 def make_session_permanent():
