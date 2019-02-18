@@ -25,3 +25,7 @@ Password: Quob4iiyieKie3hu
 ## Test User
 Email: test@test.com
 Password: aoho0Eeg
+
+
+## To Get Metrics for Prometheus
+        http://localhost/metrics
