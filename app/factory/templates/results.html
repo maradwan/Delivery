@@ -1,0 +1,112 @@
+
+{% extends "layout.html" %}
+{% block content %}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <title>Bookmarks Search</title>
+
+  </head>
+  <body>
+
+  <div class="container">
+    <div style="background:transparent !important" class="jumbotron">
+      <div style="font-family: 'Pacifico', cursive;">
+        <p>
+          <center>
+          <font size="8">Search in Delivery Orders</font>
+          </center>
+        </p>
+      </div>
+    </div>
+
+  <form action="/search/results" method="post">
+    <div class="input-group">
+      <input type="text" class="form-control input-lg" name="input" placeholder="Search"  autofocus>
+      <div class="input-group-btn">
+        <button class="btn btn-primary btn-lg" type="submit">
+          <i class="glyphicon glyphicon-search"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <center>
+      <h1>Results: ({{ res['hits']['total'] }}) </h1>
+  </center>
+
+  <table class="table">
+    <thead>
+      <tr>
+             <th>Created</th>
+             <th>Finished</th>
+             <th>Phone</th>
+             <th>Phone</th>
+             <th>Name</th>
+             <th>Email</th>
+             <th>City</th>
+             <th>Address</th>
+             <th>Floor</th>
+             <th>Apartment</th>
+             <th>Address Comments</th>
+             <th>Order Comments</th>
+             <th>Pieces</th>
+             <th>Pickup</th>
+             <th>Delivery</th>
+             <th>Creator</th>
+             <th>Languge</th>
+             <th>Condition</th>
+      </tr>
+    </thead>
+
+{% for hit in res['hits']['hits'] %}
+    <tbody>
+      <tr>
+        <th scope="row">{{ hit['_source']['created_at'] }}</th>
+          <td>{% if hit['_source']['is_finished'] == 1 %}
+              <p>Yes</p></td>
+              {% else %}
+               <p>No</p>
+                </td>
+              {% endif %}
+          <td>{{ hit['_source']['phone1'] }}</td>
+          <td>{{ hit['_source']['phone2'] }}</td>
+          <td>{{ hit['_source']['name'] }}</td>
+          <td>{{ hit['_source']['email'] }}</td>
+          <td>{{ hit['_source']['city'] }}</td>
+          <td>{{ hit['_source']['address'] }}</td>
+          <td>{{ hit['_source']['floor'] }}</td>
+          <td>{{ hit['_source']['apartment'] }}</td>
+          <td>{{ hit['_source']['address_comments'] }}</td>
+          <td>{{ hit['_source']['order_comments'] }}</td>
+          <td>{{ hit['_source']['number_of_pieces'] }}</td>
+          <td>{{ hit['_source']['time_of_pickup'] }}</td>
+          <td>{{ hit['_source']['time_of_delivery'] }}</td>
+          <td>{{ hit['_source']['creator_name'] }}</td>
+          <td>{{ hit['_source']['lang'] }}</td>
+          <td>{{ hit['_source']['condition'] }}</td>
+      </tr>
+    </tbody>
+{% endfor %}
+
+  </table>
+
+        <footer class="footer">
+          <p></p>
+        </footer>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+{% endblock %}

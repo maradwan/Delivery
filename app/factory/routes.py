@@ -9,11 +9,15 @@ from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from werkzeug.exceptions import HTTPException
 from prometheus_client import Counter, Histogram, generate_latest
+from elasticsearch import Elasticsearch
+from datetime import datetime
 
 
+es = Elasticsearch('elasticsearch', port=9200)
 app.config['RECAPTCHA_PUBLIC_KEY'] = ''
 app.config['RECAPTCHA_PRIVATE_KEY'] = ''
 CONTENT_TYPE_LATEST = str('text/plain; version=0.0.4; charset=utf-8')
+
 
 @app.route('/metrics')
 def metrics():
@@ -31,7 +35,7 @@ def login_required(f):
            return f(*args, **kwargs)
        else:
            return redirect(url_for('signin'))
-   return wrap 
+   return wrap
 
 
 class ModelView(ModelView):
@@ -98,10 +102,8 @@ def signup():
       newuser = User(form.firstname.data, form.lastname.data, form.email.data, form.password.data, 0)
       db.session.add(newuser)
       db.session.commit()
-       
-   #   session['email'] = newuser.email
       return redirect(url_for('home'))
-   
+
   elif request.method == 'GET':
     return render_template('signup.html', form=form)
 
@@ -111,11 +113,9 @@ def profile():
 
   user = User.query.filter_by(email = session['email']).first()
   if 'email' in session and user.is_admin:
-     return render_template('profile.html', is_admin=True)
-   # return redirect("/admin", code=302)
-  return render_template('profile.html')
+     return render_template('search.html', is_admin=True)
+  return render_template('search.html')
 
-  
 @app.route('/delivery', methods=['GET', 'POST'])
 @login_required
 def delivery():
@@ -129,6 +129,28 @@ def delivery():
       newdelivery = Delivery(form.phone1.data, form.phone2.data, form.name.data, form.email.data, form.city.data, form.address.data, form.floor.data, form.apartment.data, form.address_comments.data, form.order_comments.data, form.number_of_pieces.data, form.time_of_pickup.data, form.time_of_delivery.data , user.email, form.lang.data, form.condition.data)
       db.session.add(newdelivery)
       db.session.commit()
+
+      body = {
+        'created_at': datetime.now(),
+        'phone1': form.phone1.data,
+        'phone2': form.phone2.data,
+        'name': form.name.data,
+        'email': form.email.data,
+        'city': form.city.data,
+        'address': form.address.data,
+        'floor': form.floor.data,
+        'apartment': form.apartment.data,
+        'address_comments': form.address_comments.data,
+        'order_comments': form.order_comments.data,
+        'number_of_pieces': form.number_of_pieces.data,
+        'time_of_pickup': form.time_of_pickup.data,
+        'time_of_delivery': form.time_of_delivery.data,
+        'creator_name': user.email,
+        'lang': form.lang.data,
+        'condition': form.condition.data
+      }
+
+      result = es.index(index='factory', doc_type='delivery', body=body)
       flash('Record was successfully added')
       return redirect(url_for('profile'))
 
@@ -149,16 +171,45 @@ def signout():
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
   form = SigninForm()
-  
+
   if 'email' in session:
-     return redirect(url_for('profile')) 
- 
+     return redirect(url_for('profile'))
+
   if request.method == 'POST':
     if form.validate() == False:
       return render_template('signin.html', form=form)
     else:
       session['email'] = form.email.data
       return redirect(url_for('profile'))
-                 
+
   elif request.method == 'GET':
     return render_template('signin.html', form=form)
+
+@app.route('/search/results', methods=['GET', 'POST'])
+@login_required
+def search_request():
+    search_term = request.form["input"]
+
+    try:
+      res = es.search(
+        index="factory",
+        size=20,
+        body={
+            "query": {
+                "multi_match" : {
+                    "query": search_term,
+                    "fields": [
+                        "name",
+                        "phone1",
+                        "email",
+                        "city",
+                        "address",
+                        "phone2"
+                    ]
+                }
+            }
+        }
+    )
+    except:
+        return redirect(url_for('profile'))
+    return render_template('results.html', res=res )

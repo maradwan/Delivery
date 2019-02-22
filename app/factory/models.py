@@ -35,7 +35,7 @@ class User(db.Model):
 
 class Delivery(db.Model):
   __tablename__ = 'delivery'
-  id = db.Column(db.Integer, primary_key = True) 
+  id = db.Column(db.Integer, primary_key = True)
   created_at = db.Column(db.DateTime, index=True, default=datetime.now,nullable=False)
   is_finished = db.Column(db.Boolean, default=False)
   phone1 = db.Column(db.String(120))
@@ -55,7 +55,6 @@ class Delivery(db.Model):
   lang  = db.Column(db.String(120))
   condition  = db.Column(db.String(120))
 
-  
 
   def __init__(self, phone1, phone2, name, email, city, address, floor, apartment, address_comments, order_comments, number_of_pieces, time_of_pickup, time_of_delivery, creator_name, lang, condition):
     self.phone1 = phone1
@@ -63,7 +62,7 @@ class Delivery(db.Model):
     self.name = name
     self.email = email
     self.city = city
-    self.address  = address 
+    self.address  = address
     self.floor = floor
     self.apartment = apartment
     self.address_comments = address_comments

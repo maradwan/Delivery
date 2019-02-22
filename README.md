@@ -1,5 +1,4 @@
-# Delivery App Using Flask MySql Nginx uWSGI  
-
+# Delivery App Using Flask MySql Elasticsearch Nginx uWSGI
 
 ## Requirements
 
@@ -11,11 +10,11 @@
 
 Clone the repo
 
-    $ git clone git@github.com:maradwan/Delivery.git 
+    $ git clone git@github.com:maradwan/Delivery.git
     $ docker-compose up -d
 
 
-### Open Browser  
+### Open Browser
        http://localhost/
 
 ## Admin User

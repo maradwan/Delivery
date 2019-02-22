@@ -6,8 +6,10 @@ services:
     build: app/.
     links:
       - db
+      - elasticsearch
     depends_on:
       - db
+      - elasticsearch
 
   db:
     restart: always
@@ -18,6 +20,7 @@ services:
        MYSQL_DATABASE: "factory"
        MYSQL_ROOT_PASSWORD: password
 
+
   www:
     restart: always
     build: nginx/.
@@ -27,3 +30,16 @@ services:
       - app
     ports:
       - "80:80"
+
+  elasticsearch:
+    restart: always
+    build:
+      context: elasticsearch/
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+        # - ./elasticsearch/data:/usr/share/elasticsearch/data  # /data/elasticsearch/ is owned by 1000:1000 or chmod'ed to 777, Elasticsearch won't be able to write there. So chmod 1000:1000 -R ./elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
